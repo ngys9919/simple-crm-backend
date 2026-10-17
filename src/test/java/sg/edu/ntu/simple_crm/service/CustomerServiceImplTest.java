@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -35,8 +36,8 @@ public class CustomerServiceImplTest {
         // 1. ARRANGE
         Customer customer = Customer.builder()
                 .firstName("Clint").lastName("Barton")
-                .email("clint@avengers.com").contactNo("12345678")
-                .jobTitle("Special Agent").yearOfBirth(1975)
+                .email("clint@avengers.com").phone("12345678")
+                .status("active").tags("VIP").company("Avengers").notes("Test notes").createdAt(LocalDate.now())
                 .build();
 
         // Program the mock. The real repository is never called, no database is
@@ -65,24 +66,30 @@ public class CustomerServiceImplTest {
 
     @ParameterizedTest
     @CsvSource({
-            "Clint, Barton, clint@avengers.com, 12345678, Special Agent, 1975",
-            "Tony, Stark, tony@stark.com, 87654321, Engineer, 1970",
-            "Natasha, Romanoff, natasha@avengers.com, 11223344, Agent, 1984"
+            "Clint, Barton, clint@avengers.com, 12345678, active, VIP, Avengers, Test notes ABC, 2024-05-06",
+            "Tony, Stark, tony@stark.com, 87654321, inactive, Lead, Stark Industries, Test notes, 2025-12-11",
+            "Natasha, Romanoff, natasha@avengers.com, 11223344, active, VIP, Avengers, Test notes, 2026-03-08"
     })
     void createCustomers_validCustomers_returnsSavedCustomers(
             String firstName,
             String lastName,
             String email,
-            String contactNo,
-            String jobTitle,
-            int yearOfBirth) {
+            String phone,
+            String status,
+            String tags,
+            String company,
+            String notes,
+            LocalDate createdAt) {
         Customer customer = Customer.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
-                .contactNo(contactNo)
-                .jobTitle(jobTitle)
-                .yearOfBirth(yearOfBirth)
+                .phone(phone)
+                .status(status)
+                .tags(tags)
+                .company(company)
+                .notes(notes)
+                .createdAt(createdAt)
                 .build();
 
         when(customerRepository.save(customer)).thenReturn(customer);

@@ -1,6 +1,7 @@
 package sg.edu.ntu.simple_crm.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import java.util.List;
+import java.time.LocalDate;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.Test;
@@ -45,8 +46,11 @@ public class CustomerControllerTest {
         // Step 1: Create a Customer object
         Customer newCustomer = Customer.builder()
                 .firstName("Clint").lastName("Barton")
-                .email("clint@avengers.com").contactNo("12345678")
-                .jobTitle("Special Agent").yearOfBirth(1975)
+                .email("clint@avengers.com").phone("12345678")
+                .status("active").tags("VIP")
+                .company("Avengers")
+                .notes("Test notes")
+                .createdAt(LocalDate.now())
                 .build();
 
         // Step 2: Convert the Java object to a JSON-formatted String
@@ -76,9 +80,12 @@ public class CustomerControllerTest {
                 .firstName("  ")
                 .lastName("  ")
                 .email("not-a-valid-email")
-                .contactNo("12345678")
-                .jobTitle("Manager")
-                .yearOfBirth(1990)
+                .phone("12345678")
+                .status("inactive")
+                .tags("Lead")
+                .company("Avengers")
+                .notes("Test notes ABC")
+                .createdAt(LocalDate.now()) 
                 .build();
 
         String invalidCustomerAsJSON = objectMapper.writeValueAsString(invalidCustomer);
