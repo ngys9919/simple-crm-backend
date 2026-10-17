@@ -1,9 +1,6 @@
 version: 2.1
 
 jobs:
-  # ==========================================
-  # BUILD JOB - Compile and package
-  # ==========================================
   build:
     docker:
       - image: cimg/openjdk:21.0
@@ -27,18 +24,42 @@ jobs:
           paths:
             - target/*.jar
 
-  # ==========================================
-  # TEST JOB - Run automated tests
-  # ==========================================
   test:
     docker:
       - image: cimg/openjdk:21.0
+      - image: cimg/postgres:16.0
+        environment:
+          POSTGRES_DB: simplecrm
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/simplecrm
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
     steps:
       - checkout
       - restore_cache:
           keys:
             - maven-deps-{{ checksum "pom.xml" }}
             - maven-deps-
+      - run:
+          name: Install PostgreSQL client
+          command: |
+            sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run:
+          name: Wait for PostgreSQL
+          command: |
+            for i in {1..10}; do
+              if pg_isready -h localhost -p 5432 -U postgres; then
+                echo "PostgreSQL is ready!"
+                exit 0
+              fi
+              echo "Waiting for PostgreSQL... ($i/10)"
+              sleep 3
+            done
+            echo "PostgreSQL failed to start"
+            exit 1
       - run:
           name: Run tests
           command: |
@@ -49,9 +70,6 @@ jobs:
       - store_artifacts:
           path: target/surefire-reports
 
-  # ==========================================
-  # PUBLISH JOB - Build and push Docker image
-  # ==========================================
   publish:
     docker:
       - image: cimg/base:stable
@@ -64,18 +82,15 @@ jobs:
           name: Build Docker image
           command: |
             echo "Building Docker image..."
-            docker build -t $DOCKER_USERNAME/devops-demo:latest .
+            docker build -t $DOCKER_USERNAME/simple-crm-backend:latest .
       - run:
           name: Push to Docker Hub
           command: |
             echo "Logging in to Docker Hub..."
             echo $DOCKER_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
             echo "Pushing image to Docker Hub..."
-            docker push $DOCKER_USERNAME/devops-demo:latest
+            docker push $DOCKER_USERNAME/simple-crm-backend:latest
 
-# ==========================================
-# WORKFLOW - Run jobs in sequence
-# ==========================================
 workflows:
   build_test_publish:
     jobs:
@@ -87,4 +102,3 @@ workflows:
           context: docker-hub
           requires:
             - test
-
