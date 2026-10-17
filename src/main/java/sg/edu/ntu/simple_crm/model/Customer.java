@@ -1,5 +1,7 @@
 package sg.edu.ntu.simple_crm.model;
 
+import java.time.LocalDate;
+
 // import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,9 +24,9 @@ import jakarta.validation.constraints.NotBlank;
 @EqualsAndHashCode  // value-based equality, required by assertEquals()
 @NoArgsConstructor  // required by JPA
 @AllArgsConstructor // required by @Builder when other constructors exist
-@JsonPropertyOrder({ "id", "firstName", "lastName", "email", "contactNo", "jobTitle", "yearOfBirth" })
+@JsonPropertyOrder({ "id", "firstName", "lastName", "email", "phone", "status", "tags", "company", "notes", "createdAt" })
 @Entity
-@Table(name = "customer")
+@Table(name = "simple_crm")
 public class Customer {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,14 +45,23 @@ public class Customer {
   @Column(name = "email")
   private String email;
 
-  @Column(name = "contact_no")
-  private String contactNo;
+  @Column(name = "phone")
+  private String phone;
 
-  @Column(name = "job_title")
-  private String jobTitle;
+  @Column(name = "status")
+  private String status;
 
-  @Column(name = "year_of_birth")
-  private int yearOfBirth;
+  @Column(name = "tags")
+  private String tags;
+
+  @Column(name = "company")
+  private String company;
+
+   @Column(name = "notes")
+  private String notes;
+
+   @Column(name = "created_at")
+  private LocalDate createdAt;
 
   public Customer(String firstName, String lastName) {
 
@@ -58,14 +69,17 @@ public class Customer {
     this.lastName = lastName;
   }
 
-  public Customer(String firstName, String lastName, String email, String contactNo, String jobTitle, int yearOfBirth) {
+  public Customer(String firstName, String lastName, String email, String phone, String status, String tags, String company, String notes, LocalDate createdAt) {
 
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.contactNo = contactNo;
-    this.jobTitle = jobTitle;
-    this.yearOfBirth = yearOfBirth;
+    this.phone = phone;
+    this.status = status;
+    this.tags = tags;
+    this.company = company;
+    this.notes = notes;
+    this.createdAt = createdAt;
   }
 
 }
