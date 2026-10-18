@@ -33,7 +33,7 @@ public class CustomerController {
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         try {
             Customer newCustomer = customerService.createCustomer(customer);
-            return new ResponseEntity<>(newCustomer, HttpStatus.OK);
+            return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
