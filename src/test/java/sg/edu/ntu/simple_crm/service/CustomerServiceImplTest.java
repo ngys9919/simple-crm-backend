@@ -7,8 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +39,7 @@ public class CustomerServiceImplTest {
         Customer customer = Customer.builder()
                 .firstName("Clint").lastName("Barton")
                 .email("clint@avengers.com").phone("12345678")
-                .status("active").tags(Arrays.asList("Lead", "VIP")).company("Avengers").notes("Test notes").createdAt(LocalDate.now())
+                .status("active").tags(new ArrayList<>(List.of("Lead", "VIP"))).company("Avengers").notes("Test notes").createdAt(LocalDate.now())
                 .build();
 
         // Program the mock. The real repository is never called, no database is
@@ -77,7 +78,7 @@ public class CustomerServiceImplTest {
             String email,
             String phone,
             String status,
-            String tags,
+            String tag,
             String company,
             String notes,
             LocalDate createdAt) {
@@ -87,7 +88,7 @@ public class CustomerServiceImplTest {
                 .email(email)
                 .phone(phone)
                 .status(status)
-                .tags(Arrays.asList(tags)) 
+                .tags(new ArrayList<>(List.of(tag)))
                 .company(company)
                 .notes(notes)
                 .createdAt(createdAt)
