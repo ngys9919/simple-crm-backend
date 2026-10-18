@@ -1,7 +1,7 @@
 package sg.edu.ntu.simple_crm.controller;
 
 import java.util.List;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +28,7 @@ public class CustomerController {
     }
 
     // Create
+    @CrossOrigin(origins = "https://ngys9919.github.io")
     @PostMapping()
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         try {
@@ -39,6 +40,7 @@ public class CustomerController {
     }
 
     // Read (Get All)
+    @CrossOrigin(origins = "https://ngys9919.github.io")
     @GetMapping()
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> allCustomers = customerService.getAllCustomers();
@@ -46,6 +48,7 @@ public class CustomerController {
     }
 
     // get customer by id
+    @CrossOrigin(origins = "https://ngys9919.github.io")
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
         try {
@@ -59,6 +62,7 @@ public class CustomerController {
     }
 
     // Update
+    @CrossOrigin(origins = "https://ngys9919.github.io")
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
         try {
@@ -70,6 +74,7 @@ public class CustomerController {
     }
 
     // delete
+    @CrossOrigin(origins = "https://ngys9919.github.io")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable Long id) {
         try {
