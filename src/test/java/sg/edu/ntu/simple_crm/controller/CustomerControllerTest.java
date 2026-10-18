@@ -1,6 +1,6 @@
 package sg.edu.ntu.simple_crm.controller;
 
-import java.util.List;
+import java.util.Arrays;
 import java.time.LocalDate;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -47,7 +47,7 @@ public class CustomerControllerTest {
         Customer newCustomer = Customer.builder()
                 .firstName("Clint").lastName("Barton")
                 .email("clint@avengers.com").phone("12345678")
-                .status("active").tags("VIP")
+                .status("active").tags(Arrays.asList("VIP"))
                 .company("Avengers")
                 .notes("Test notes")
                 .createdAt(LocalDate.now())
@@ -82,7 +82,7 @@ public class CustomerControllerTest {
                 .email("not-a-valid-email")
                 .phone("12345678")
                 .status("inactive")
-                .tags("Lead")
+                .tags(Arrays.asList("Lead"))
                 .company("Avengers")
                 .notes("Test notes ABC")
                 .createdAt(LocalDate.now()) 
