@@ -1,6 +1,7 @@
 package sg.edu.ntu.simple_crm.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 // import java.util.UUID;
 
@@ -52,7 +53,7 @@ public class Customer {
   private String status;
 
   @Column(name = "tags")
-  private String tags;
+  private List<String> tags;
 
   @Column(name = "company")
   private String company;
@@ -69,7 +70,7 @@ public class Customer {
     this.lastName = lastName;
   }
 
-  public Customer(String firstName, String lastName, String email, String phone, String status, String tags, String company, String notes, LocalDate createdAt) {
+  public Customer(String firstName, String lastName, String email, String phone, String status, List<String> tags, String company, String notes, LocalDate createdAt) {
 
     this.firstName = firstName;
     this.lastName = lastName;
