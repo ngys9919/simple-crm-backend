@@ -19,7 +19,7 @@ public class SimpleCrmApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("https://ngys9919.github.io/simple-crm-frontend")
+						.allowedOrigins("https://ngys9919.github.io/simple-crm-frontend/app")
 						.allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE");
 			}
 		};
